@@ -1,22 +1,35 @@
+using System;
 using System.Collections.Generic;
 
 namespace Address
 {
     class AddressBook
     {
-        public Dictionary<Contact, string> addressbook {get; set; }
+        public Dictionary<string, Contact> addressbook {get; set; }
+        
+        public AddressBook(){
+            addressbook = new Dictionary<string, Contact>();
+        }
+    
         public void AddContact(Contact contact){
-            addressbook.Add(contact, contact.Email);
+            try
+            {
+                addressbook.Add(contact.Email, contact);
+            }
+            catch
+            {
+                Console.WriteLine($"Contact {contact.FullName()} already exists");
+            }
         }
 
         public Contact GetByEmail(string email){
-            foreach(var pair in addressbook)
-            {
-                if(pair.Value == email)
-                {
-                    return pair.Key;
-                }
-            }
+            
+                
+            addressbook.TryGetValue(email, out Contact contact);
+            return contact;
+           
+
+            
         }
     }
-}
+} 
